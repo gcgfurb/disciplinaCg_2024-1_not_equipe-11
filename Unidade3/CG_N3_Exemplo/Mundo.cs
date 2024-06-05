@@ -126,6 +126,15 @@ namespace gcgcg
             // ☞ 396c2670-8ce0-4aff-86da-0f58cd8dcfdc   TODO: forma otimizada para teclado.
             #region Teclado
             var estadoTeclado = KeyboardState;
+            if (estadoTeclado.IsKeyPressed(Keys.D))
+            {
+                if (objetoSelecionado != null)
+                {
+                    _vectorEditor.deletePoligon(objetoSelecionado);
+                    objetoSelecionado = null;
+                }
+            }
+
             if (estadoTeclado.IsKeyPressed(Keys.Enter))
             {
                 objetoSelecionado = _vectorEditor.finalizePoligon();
@@ -180,25 +189,12 @@ namespace gcgcg
 
             if (MouseState.IsButtonPressed(MouseButton.Left))
             {
-                Console.WriteLine("MouseState.IsButtonPressed(MouseButton.Left)");
-                Console.WriteLine("__ Valores do Espaço de Tela");
-                Console.WriteLine("Vector2 mousePosition: " + MousePosition);
-                Console.WriteLine("Vector2i windowSize: " + ClientSize);
+                objetoSelecionado = _vectorEditor.getPoligonbyClick(getMouseClick());
             }
             if (MouseState.IsButtonPressed(MouseButton.Right))
             {
-                Console.WriteLine("MouseState.IsButtonDown(MouseButton.Right)");
-
-                int janelaLargura = ClientSize.X;
-                int janelaAltura = ClientSize.Y;
-                Ponto4D mousePonto = new Ponto4D(MousePosition.X, MousePosition.Y);
-                Ponto4D sruPonto = Utilitario.NDC_TelaSRU(janelaLargura, janelaAltura, mousePonto);
-
-                if (!_vectorEditor.editing)
-                {
-                    _vectorEditor.addPoligon(mundo);
-                }
-                _vectorEditor.addNewPoligonPoint(sruPonto);
+                if (!_vectorEditor.editing) _vectorEditor.addPoligon(mundo);
+                _vectorEditor.addNewPoligonPoint(getMouseClick());
             }
             if (MouseState.IsButtonReleased(MouseButton.Right))
             {
@@ -207,6 +203,14 @@ namespace gcgcg
 
             #endregion
 
+        }
+
+        private Ponto4D getMouseClick()
+        {
+            int janelaLargura = ClientSize.X;
+            int janelaAltura = ClientSize.Y;
+            Ponto4D mousePonto = new Ponto4D(MousePosition.X, MousePosition.Y);
+            return Utilitario.NDC_TelaSRU(janelaLargura, janelaAltura, mousePonto);
         }
 
         protected override void OnResize(ResizeEventArgs e)

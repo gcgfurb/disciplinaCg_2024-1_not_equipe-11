@@ -9,27 +9,51 @@ using System.Collections.Generic;
 
 namespace gcgcg
 {
-    internal class Objeto  //TODO: deveria ser uma class abstract ..??
+    internal class Objeto //TODO: deveria ser uma class abstract ..??
     {
         // Objeto
         private readonly char rotulo;
-        protected Objeto paiRef;
+        public char Rotulo => rotulo;
+
+        public Objeto paiRef { get; protected set; }
         private readonly List<Objeto> objetosLista = new List<Objeto>();
         private PrimitiveType primitivaTipo = PrimitiveType.LineLoop;
-        public PrimitiveType PrimitivaTipo { get => primitivaTipo; set => primitivaTipo = value; }
-        private float primitivaTamanho = 1;
-        public float PrimitivaTamanho { get => primitivaTamanho; set => primitivaTamanho = value; }
-        private Shader _shaderObjeto = new("Shaders/shader.vert", "Shaders/shaderBranca.frag");
-        public Shader ShaderObjeto { set => _shaderObjeto = value; }
 
-        protected List<Ponto4D> pontosLista = [];
-        public int PontosListaTamanho { get => pontosLista.Count; }
+        public PrimitiveType PrimitivaTipo
+        {
+            get => primitivaTipo;
+            set => primitivaTipo = value;
+        }
+
+        private float primitivaTamanho = 1;
+
+        public float PrimitivaTamanho
+        {
+            get => primitivaTamanho;
+            set => primitivaTamanho = value;
+        }
+
+        private Shader _shaderObjeto = new("Shaders/shader.vert", "Shaders/shaderBranca.frag");
+
+        public Shader ShaderObjeto
+        {
+            set => _shaderObjeto = value;
+        }
+
+        public List<Ponto4D> pontosLista { get; protected set; } = [];
+
+        public int PontosListaTamanho
+        {
+            get => pontosLista.Count;
+        }
+
         private int _vertexBufferObject;
         private int _vertexArrayObject;
 
         // BBox do objeto
         private readonly BBox bBox = new();
-        public BBox Bbox()  //TODO: readonly
+
+        public BBox Bbox() //TODO: readonly
         {
             return bBox;
         }
@@ -39,6 +63,7 @@ namespace gcgcg
 
         /// Matrizes temporarias que sempre sao inicializadas com matriz Identidade entao podem ser "static".
         private static Transformacao4D matrizTmpTranslacao = new Transformacao4D();
+
         private static Transformacao4D matrizTmpTranslacaoInversa = new Transformacao4D();
         private static Transformacao4D matrizTmpEscala = new Transformacao4D();
         private static Transformacao4D matrizTmpRotacao = new Transformacao4D();
@@ -80,13 +105,15 @@ namespace gcgcg
                 vertices[i + 2] = (float)pontosLista[ptoLista].Z;
                 ptoLista++;
             }
+
             bBox.Atualizar(matriz, pontosLista);
 
             GL.PointSize(primitivaTamanho);
 
             _vertexBufferObject = GL.GenBuffer();
             GL.BindBuffer(BufferTarget.ArrayBuffer, _vertexBufferObject);
-            GL.BufferData(BufferTarget.ArrayBuffer, vertices.Length * sizeof(float), vertices, BufferUsageHint.StaticDraw);
+            GL.BufferData(BufferTarget.ArrayBuffer, vertices.Length * sizeof(float), vertices,
+                BufferUsageHint.StaticDraw);
             _vertexArrayObject = GL.GenVertexArray();
             GL.BindVertexArray(_vertexArrayObject);
             GL.VertexAttribPointer(0, 3, VertexAttribPointerType.Float, false, 3 * sizeof(float), 0);
@@ -112,6 +139,7 @@ namespace gcgcg
       Console.WriteLine(" .. ERRO de Render - escolha OpenGL ou DirectX !!");
 #endif
             }
+
             for (var i = 0; i < objetosLista.Count; i++)
             {
                 objetosLista[i].Desenhar(matrizGrafo);
@@ -148,6 +176,12 @@ namespace gcgcg
             ObjetoAtualizar();
         }
 
+        public void RemoverPonto(int posicao)
+        {
+            pontosLista.RemoveAt(posicao);
+            ObjetoAtualizar();
+        }
+
         #endregion
 
         #region Objeto: Grafo de Cena
@@ -158,6 +192,7 @@ namespace gcgcg
             {
                 return this;
             }
+
             foreach (var objeto in objetosLista)
             {
                 var obj = objeto.GrafocenaBusca(_rotulo);
@@ -166,6 +201,7 @@ namespace gcgcg
                     return obj;
                 }
             }
+
             return null;
         }
 
@@ -194,7 +230,6 @@ namespace gcgcg
         public void GrafocenaRemoverObjeto(Objeto obj)
         {
             obj.paiRef.objetosLista.Remove(obj);
-            obj.PontosLimpar();
         }
 
         #endregion
@@ -205,11 +240,13 @@ namespace gcgcg
         {
             Console.WriteLine(matriz);
         }
+
         public void MatrizAtribuirIdentidade()
         {
             matriz.AtribuirIdentidade();
             ObjetoAtualizar();
         }
+
         public void MatrizTranslacaoXYZ(double tx, double ty, double tz)
         {
             Transformacao4D matrizTranslate = new Transformacao4D();
@@ -217,6 +254,7 @@ namespace gcgcg
             matriz = matrizTranslate.MultiplicarMatriz(matriz);
             ObjetoAtualizar();
         }
+
         public void MatrizEscalaXYZ(double Sx, double Sy, double Sz)
         {
             Transformacao4D matrizScale = new Transformacao4D();
@@ -243,9 +281,10 @@ namespace gcgcg
 
             ObjetoAtualizar();
         }
+
         public void MatrizRotacaoEixo(double angulo)
         {
-            switch (eixoRotacao)  // TODO: ainda não uso no exemplo
+            switch (eixoRotacao) // TODO: ainda não uso no exemplo
             {
                 case 'x':
                     matrizTmpRotacao.AtribuirRotacaoX(Transformacao4D.DEG_TO_RAD * angulo);
@@ -260,14 +299,17 @@ namespace gcgcg
                     Console.WriteLine("opção de eixoRotacao: ERRADA!");
                     break;
             }
+
             ObjetoAtualizar();
         }
+
         public void MatrizRotacao(double angulo)
         {
             MatrizRotacaoEixo(angulo);
             matriz = matrizTmpRotacao.MultiplicarMatriz(matriz);
             ObjetoAtualizar();
         }
+
         public void MatrizRotacaoZBBox(double angulo)
         {
             matrizGlobal.AtribuirIdentidade();
@@ -314,15 +356,15 @@ namespace gcgcg
             for (var i = 0; i < pontosLista.Count; i++)
             {
                 retorno += "P" + i + "[ " +
-                string.Format("{0,10}", pontosLista[i].X) + " | " +
-                string.Format("{0,10}", pontosLista[i].Y) + " | " +
-                string.Format("{0,10}", pontosLista[i].Z) + " | " +
-                string.Format("{0,10}", pontosLista[i].W) + " ]" + "\n";
+                           string.Format("{0,10}", pontosLista[i].X) + " | " +
+                           string.Format("{0,10}", pontosLista[i].Y) + " | " +
+                           string.Format("{0,10}", pontosLista[i].Z) + " | " +
+                           string.Format("{0,10}", pontosLista[i].W) + " ]" + "\n";
             }
+
             retorno += bBox.ToString();
             return retorno;
         }
 #endif
-
     }
 }

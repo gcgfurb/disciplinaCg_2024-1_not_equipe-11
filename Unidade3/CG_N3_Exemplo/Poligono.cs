@@ -3,6 +3,7 @@
 using CG_Biblioteca;
 using OpenTK.Graphics.OpenGL4;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace gcgcg
 {
@@ -14,6 +15,13 @@ namespace gcgcg
             PrimitivaTamanho = 1;
             base.pontosLista = pontosPoligono;
             Atualizar();
+        }
+
+        public int GetIdxPontoMenorDistancia(Ponto4D sruPonto)
+        {
+            return pontosLista
+                .Select((ponto, idx) => new { ponto, idx })
+                .MinBy((objPonto) => Matematica.DistanciaQuadrado(objPonto.ponto, sruPonto)).idx;
         }
 
         private void Atualizar()

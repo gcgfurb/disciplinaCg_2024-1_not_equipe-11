@@ -32,7 +32,18 @@ namespace gcgcg
             foreach (char rotulo in rotulos)
             {
                 Objeto poligon = GrafocenaBusca(rotulo);
-                if (poligon.Bbox().Dentro(mousePonto)) return poligon;
+                int qtdScanLine  = 0;
+
+                if (poligon.Bbox().Dentro(mousePonto)) {
+                    var pontos = poligon.pontosLista.Append(poligon.pontosLista.First()).ToList();
+                    
+                    for (int i = 0; i < pontos.Count - 1; i++)
+                    {
+                        if (Matematica.ScanLine(mousePonto, pontos[i], pontos[i+1])) qtdScanLine++;
+                    }
+                }
+
+                if (qtdScanLine % 2 != 0) return poligon;
             }
 
             return null;
@@ -69,14 +80,33 @@ namespace gcgcg
             return _lastNode;
         }
 
+        public void AtualizarRastro(Ponto4D ponto)
+        {
+            if (!editing) return;
+
+            _lastNode.PontosAlterar(ponto, _lastNode.pontosLista.Count - 1);
+        }
+
         internal Objeto finalizePoligon()
         {
+            if (!editing) return _lastNode;
+
+            var poligono = _lastNode;
+            _lastNode.RemoverPonto(_lastNode.pontosLista.Count - 1);
+
             editing = false;
+            Atualizar();
+
             return _lastNode;
         }
 
         internal void addNewPoligonPoint(Ponto4D mousePonto)
         {
+            if (!editing) return;
+
+            if (_lastNode.pontosLista.Count == 0) 
+                _lastNode.PontosAdicionar(mousePonto);
+
             _lastNode.PontosAdicionar(mousePonto);
             Atualizar();
         }

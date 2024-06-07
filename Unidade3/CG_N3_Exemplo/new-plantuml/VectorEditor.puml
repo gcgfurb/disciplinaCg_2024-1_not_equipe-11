@@ -1,0 +1,8 @@
+@startuml
+class VectorEditor {
+    + editing : bool <<get>> <<set>>
+    + VectorEditor(_paiRef:Objeto, _rotulo:char, objetoFilho:Objeto)
+    + AtualizarRastro(ponto:Ponto4D) : void
+}
+Objeto <|-- VectorEditor
+@enduml

@@ -1,7 +1,7 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using CG_Biblioteca;
+﻿using CG_Biblioteca;
 using OpenTK.Graphics.OpenGL4;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace gcgcg
 {
@@ -32,14 +32,15 @@ namespace gcgcg
             foreach (char rotulo in rotulos)
             {
                 Objeto poligon = GrafocenaBusca(rotulo);
-                int qtdScanLine  = 0;
+                int qtdScanLine = 0;
 
-                if (poligon.Bbox().Dentro(mousePonto)) {
+                if (poligon.Bbox().Dentro(mousePonto))
+                {
                     var pontos = poligon.pontosLista.Append(poligon.pontosLista.First()).ToList();
-                    
+
                     for (int i = 0; i < pontos.Count - 1; i++)
                     {
-                        if (Matematica.ScanLine(mousePonto, pontos[i], pontos[i+1])) qtdScanLine++;
+                        if (Matematica.ScanLine(mousePonto, pontos[i], pontos[i + 1])) qtdScanLine++;
                     }
                 }
 
@@ -104,7 +105,7 @@ namespace gcgcg
         {
             if (!editing) return;
 
-            if (_lastNode.pontosLista.Count == 0) 
+            if (_lastNode.pontosLista.Count == 0)
                 _lastNode.PontosAdicionar(mousePonto);
 
             _lastNode.PontosAdicionar(mousePonto);

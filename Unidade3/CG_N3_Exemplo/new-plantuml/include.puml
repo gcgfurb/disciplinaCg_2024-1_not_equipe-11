@@ -1,0 +1,15 @@
+@startuml
+!include .\\Mundo.puml
+!include .\\Objeto.puml
+!include .\\Poligono.puml
+!include .\\Program.puml
+!include .\\VectorEditor.puml
+!include .\\CG_Biblioteca\BBox.puml
+!include .\\CG_Biblioteca\CameraPerspective.puml
+!include .\\CG_Biblioteca\Matematica.puml
+!include .\\CG_Biblioteca\Ponto4D.puml
+!include .\\CG_Biblioteca\Transformacao4D.puml
+!include .\\CG_Biblioteca\Utilitario.puml
+!include .\\CG_Biblioteca\Shaders\Shader.puml
+!include .\\CG_Biblioteca\Shaders\Texture.puml
+@enduml

@@ -217,7 +217,8 @@ namespace gcgcg
                 _vectorEditor.addNewPoligonPoint(GetMousePosition());
             }
 
-            if (_vectorEditor.editing){
+            if (_vectorEditor.editing)
+            {
                 _vectorEditor.AtualizarRastro(GetMousePosition());
             }
 

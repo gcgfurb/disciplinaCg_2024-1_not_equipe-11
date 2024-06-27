@@ -7,12 +7,11 @@
 
 using CG_Biblioteca;
 using OpenTK.Graphics.OpenGL4;
-using OpenTK.Windowing.Common;
-using OpenTK.Windowing.GraphicsLibraryFramework;
-using OpenTK.Windowing.Desktop;
-using System;
 using OpenTK.Mathematics;
-using System.Collections.Generic;
+using OpenTK.Windowing.Common;
+using OpenTK.Windowing.Desktop;
+using OpenTK.Windowing.GraphicsLibraryFramework;
+using System;
 
 //FIXME: padrão Singleton
 
@@ -72,14 +71,14 @@ namespace gcgcg
                                                 // GL.CullFace(CullFaceMode.FrontAndBack);
 
             #region Cores
-            _shaderBranca   = new Shader("Shaders/shader.vert", "Shaders/shaderBranca.frag");
+            _shaderBranca = new Shader("Shaders/shader.vert", "Shaders/shaderBranca.frag");
             _shaderVermelha = new Shader("Shaders/shader.vert", "Shaders/shaderVermelha.frag");
-            _shaderVerde    = new Shader("Shaders/shader.vert", "Shaders/shaderVerde.frag");
-            _shaderAzul     = new Shader("Shaders/shader.vert", "Shaders/shaderAzul.frag");
-            _shaderCiano    = new Shader("Shaders/shader.vert", "Shaders/shaderCiano.frag");
-            _shaderMagenta  = new Shader("Shaders/shader.vert", "Shaders/shaderMagenta.frag");
-            _shaderAmarela  = new Shader("Shaders/shader.vert", "Shaders/shaderAmarela.frag");
-            _shaderCustom   = new Shader("Shaders/shader.vert", "Shaders/shader.frag");
+            _shaderVerde = new Shader("Shaders/shader.vert", "Shaders/shaderVerde.frag");
+            _shaderAzul = new Shader("Shaders/shader.vert", "Shaders/shaderAzul.frag");
+            _shaderCiano = new Shader("Shaders/shader.vert", "Shaders/shaderCiano.frag");
+            _shaderMagenta = new Shader("Shaders/shader.vert", "Shaders/shaderMagenta.frag");
+            _shaderAmarela = new Shader("Shaders/shader.vert", "Shaders/shaderAmarela.frag");
+            _shaderCustom = new Shader("Shaders/shader.vert", "Shaders/shader.frag");
             _shaderCustom.Use();
             #endregion
 
@@ -99,6 +98,7 @@ namespace gcgcg
 
             objetoSelecionado = new Cubo(mundo, ref rotuloNovo, true);
             objetoSelecionado._texture.Use(TextureUnit.Texture0);
+            objetoSelecionado.MatrizTranslacaoXYZ(3.0, 0.0, 0.0);
             #endregion
 
             _camera = new Camera(Vector3.UnitZ * 5, ClientSize.X / (float)ClientSize.Y);
@@ -235,7 +235,7 @@ namespace gcgcg
             }
             #endregion
 
-            //objetoSelecionado.AlterarPosicao();
+            objetoSelecionado.MatrizRotacao(0.05);
         }
 
         protected override void OnResize(ResizeEventArgs e)

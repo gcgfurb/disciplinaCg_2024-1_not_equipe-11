@@ -2,32 +2,19 @@
 
 #define CG_Debug
 using CG_Biblioteca;
-using OpenTK.Core.Native;
 using OpenTK.Graphics.OpenGL4;
-using OpenTK.Mathematics;
-using System.Collections.Generic;
-using System.Drawing;
 
 namespace gcgcg
 {
     internal class Cubo : Objeto
     {
         Ponto4D[] vertices;
-        public bool _bMenor = false;
-        private List<Ponto4D> _orbita = [];
 
         public Cubo(Objeto _paiRef, ref char _rotulo, bool bMenor = false) : base(_paiRef, ref _rotulo)
         {
             PrimitivaTipo = PrimitiveType.Triangles;
-            _bMenor = bMenor;
             PrimitivaTamanho = bMenor ? .3f : 1f;
             _shaderObjeto = new Shader("Shaders/shader.vert", "Shaders/shader.frag");
-
-            if (bMenor)
-            {
-                for (int angulo = 0; angulo <= 360; angulo += 5)
-                    _orbita.Add(Matematica.GerarPtosCirculo(angulo, 0.5));
-            }
 
             vertices =
             [
@@ -71,27 +58,10 @@ namespace gcgcg
             ];
 
             foreach (var idx in indices)
-                PontosAdicionar(new (vertices[idx].X * PrimitivaTamanho, vertices[idx].Y * PrimitivaTamanho, vertices[idx].Z * PrimitivaTamanho));
+                PontosAdicionar(new(vertices[idx].X * PrimitivaTamanho, vertices[idx].Y * PrimitivaTamanho, vertices[idx].Z * PrimitivaTamanho));
 
             foreach (var idx in textureIndices)
                 _texturePoints.Add(new Ponto4D(_texture.Coords[idx][0], _texture.Coords[idx][1]));
-
-            Atualizar();
-        }
-
-        public override void AlterarPosicao()
-        {
-            if (_bMenor)
-            {
-                foreach (var ponto in pontosLista)
-                {
-                    foreach (var ptrOrbita in _orbita)
-                    {
-                        ponto.Y = ptrOrbita.X;
-                        ponto.Z = ptrOrbita.Y;
-                    }
-                }
-            }
 
             Atualizar();
         }

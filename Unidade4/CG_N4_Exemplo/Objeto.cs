@@ -74,10 +74,6 @@ namespace gcgcg
             }
         }
 
-        public virtual void AlterarPosicao()
-        {
-        }
-
         public void ObjetoAtualizar()
         {
             float[] vertices = new float[pontosLista.Count * 3];

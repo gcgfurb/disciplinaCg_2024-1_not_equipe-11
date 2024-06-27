@@ -1,0 +1,37 @@
+@startuml
+class Objeto {
+    + Rotulo : char <<get>>
+    + PrimitivaTamanho : float <<get>> <<set>>
+    + PontosListaTamanho : int <<get>>
+    + Bbox() : BBox
+    + TrocaEixoRotacao(eixo:char) : void
+    + Objeto(_paiRef:Objeto, _rotulo:char, objetoFilho:Objeto)
+    + ObjetoAtualizar() : void
+    + Desenhar(matrizGrafo:Transformacao4D) : void
+    + FilhoAdicionar(filho:Objeto) : void
+    + PontosId(id:int) : Ponto4D
+    + PontosAdicionar(pto:Ponto4D) : void
+    + PontosAlterar(pto:Ponto4D, posicao:int) : void
+    + PontosLimpar() : void
+    + RemoverPonto(posicao:int) : void
+    + GrafocenaBusca(_rotulo:char) : Objeto
+    + GrafocenaBuscaProximo(objetoAtual:Objeto) : Objeto
+    + GrafocenaImprimir(idt:string) : void
+    + GrafocenaRemoverObjeto(obj:Objeto) : void
+    + MatrizImprimir() : void
+    + MatrizAtribuirIdentidade() : void
+    + MatrizTranslacaoXYZ(tx:double, ty:double, tz:double) : void
+    + MatrizEscalaXYZ(Sx:double, Sy:double, Sz:double) : void
+    + MatrizEscalaXYZBBox(Sx:double, Sy:double, Sz:double) : void
+    + MatrizRotacaoEixo(angulo:double) : void
+    + MatrizRotacao(angulo:double) : void
+    + MatrizRotacaoZBBox(angulo:double) : void
+    + OnUnload() : void
+}
+class "List`1"<T> {
+}
+Objeto --> "paiRef" Objeto
+Objeto --> "PrimitivaTipo" PrimitiveType
+Objeto --> "ShaderObjeto" Shader
+Objeto o-> "pontosLista<Ponto4D>" "List`1"
+@enduml

@@ -80,7 +80,7 @@ namespace gcgcg
             int ptoLista = 0;
             for (int i = 0; i < vertices.Length; i += 3)
             {
-                vertices[i]     = (float)pontosLista[ptoLista].X;
+                vertices[i] = (float)pontosLista[ptoLista].X;
                 vertices[i + 1] = (float)pontosLista[ptoLista].Y;
                 vertices[i + 2] = (float)pontosLista[ptoLista].Z;
                 ptoLista++;
@@ -90,7 +90,7 @@ namespace gcgcg
             var texturePointIndex = 0;
             for (int i = 0; i < textureVertices.Length; i += 2)
             {
-                textureVertices[i]     = (float)_texturePoints[texturePointIndex].X;
+                textureVertices[i] = (float)_texturePoints[texturePointIndex].X;
                 textureVertices[i + 1] = (float)_texturePoints[texturePointIndex].Y;
                 texturePointIndex++;
             }
@@ -110,9 +110,12 @@ namespace gcgcg
             _textureBufferObject = GL.GenBuffer();
             GL.BindBuffer(BufferTarget.ArrayBuffer, _textureBufferObject);
             GL.BufferData(BufferTarget.ArrayBuffer, textureVertices.Length * sizeof(float), textureVertices, BufferUsageHint.StaticDraw);
+
             var localTexturaCoord = _shaderObjeto.GetAttribLocation("aTexCoord");
             GL.VertexAttribPointer(localTexturaCoord, 2, VertexAttribPointerType.Float, false, 2 * sizeof(float), 0);
             GL.EnableVertexAttribArray(localTexturaCoord);
+
+
 
             bBox.Atualizar(matriz, pontosLista);
 

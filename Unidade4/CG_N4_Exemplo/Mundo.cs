@@ -40,6 +40,8 @@ namespace gcgcg
         private Shader _shaderCiano;
         private Shader _shaderMagenta;
         private Shader _shaderAmarela;
+        private Shader _lightingShader;
+        private Shader _lampShader;
         private Shader _shaderCustom;
 
         private Camera _camera;
@@ -78,6 +80,7 @@ namespace gcgcg
             _shaderCiano = new Shader("Shaders/shader.vert", "Shaders/shaderCiano.frag");
             _shaderMagenta = new Shader("Shaders/shader.vert", "Shaders/shaderMagenta.frag");
             _shaderAmarela = new Shader("Shaders/shader.vert", "Shaders/shaderAmarela.frag");
+            _lightingShader = new Shader("Shaders/shader.vert", "Shaders/lighting.frag");
             _shaderCustom = new Shader("Shaders/shader.vert", "Shaders/shader.frag");
             _shaderCustom.Use();
             #endregion
@@ -218,7 +221,7 @@ namespace gcgcg
             }
 
             var mouse = MouseState;
-            const float sensitivity = 0.05f;
+            const float sensitivity = 3 * 0.05f;
             if (_firstMove)
             {
                 _lastPos = new Vector2(mouse.X, mouse.Y);

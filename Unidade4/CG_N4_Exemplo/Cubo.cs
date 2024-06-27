@@ -18,14 +18,14 @@ namespace gcgcg
 
             vertices =
             [
-                new Ponto4D(-1.0f, -1.0f,  1.0f + (bMenor ? 7f : 0f)), // 0
-                new Ponto4D( 1.0f, -1.0f,  1.0f + (bMenor ? 7f : 0f)), // 1
-                new Ponto4D( 1.0f,  1.0f,  1.0f + (bMenor ? 7f : 0f)), // 2
-                new Ponto4D(-1.0f,  1.0f,  1.0f + (bMenor ? 7f : 0f)), // 3
-                new Ponto4D(-1.0f, -1.0f, -1.0f + (bMenor ? 7f : 0f)), // 4
-                new Ponto4D( 1.0f, -1.0f, -1.0f + (bMenor ? 7f : 0f)), // 5
-                new Ponto4D( 1.0f,  1.0f, -1.0f + (bMenor ? 7f : 0f)), // 6
-                new Ponto4D(-1.0f,  1.0f, -1.0f + (bMenor ? 7f : 0f)), // 7
+                new Ponto4D(-1.0f, -1.0f,  1.0f ), // 0
+                new Ponto4D( 1.0f, -1.0f,  1.0f ), // 1
+                new Ponto4D( 1.0f,  1.0f,  1.0f ), // 2
+                new Ponto4D(-1.0f,  1.0f,  1.0f ), // 3
+                new Ponto4D(-1.0f, -1.0f, -1.0f ), // 4
+                new Ponto4D( 1.0f, -1.0f, -1.0f ), // 5
+                new Ponto4D( 1.0f,  1.0f, -1.0f ), // 6
+                new Ponto4D(-1.0f,  1.0f, -1.0f ), // 7
             ];
 
             int[] indices =
